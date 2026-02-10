@@ -197,23 +197,15 @@ const Chat = () => {
       </Modal>
 
       {/* Main Container */}
-      <AnimatePresence>
-        {isChatVisible && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9, y: 100 }}
-            transition={{ duration: 0.3 }}
-            style={{ 
-              position: 'relative', 
-              zIndex: 1, 
-              height: '100%', 
-              display: 'flex', 
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: '20px'
-            }}
-          >
+      <div style={{ 
+        position: 'relative', 
+        zIndex: 1, 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px'
+      }}>
         
         {/* Header */}
         <div style={{ marginTop: 40, marginBottom: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -477,9 +469,7 @@ const Chat = () => {
           </div>
         </motion.div>
 
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
 
       {/* Toggle Button */}
       <motion.div
@@ -492,13 +482,19 @@ const Chat = () => {
           zIndex: 1000
         }}
       >
-        <Tooltip title={isChatVisible ? "隐藏" : "展开"}>
+        <Tooltip title={mode === MODES.EMOTIONAL ? "隐藏平哥" : "呼叫平哥"}>
           <Button
             type="default"
             shape="circle"
             size="large"
-            icon={isChatVisible ? <DownOutlined /> : renderModeIcon(mode, { fontSize: '28px' })}
-            onClick={() => setIsChatVisible(!isChatVisible)}
+            icon={mode === MODES.EMOTIONAL ? <CloseOutlined /> : <HeartFilled style={{ color: '#ff7a9e' }} />}
+            onClick={() => {
+              if (mode === MODES.EMOTIONAL) {
+                handleModeChange({ key: MODES.PRODUCT });
+              } else {
+                handleModeChange({ key: MODES.EMOTIONAL });
+              }
+            }}
             style={{
               width: '60px',
               height: '60px',
