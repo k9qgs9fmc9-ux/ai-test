@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendMessage, addUserMessage, clearHistory, switchMode } from './features/chat/chatSlice';
 import { Input, Button, Typography, Avatar, Tooltip, Modal, Dropdown, Space, Empty, Tag } from 'antd';
-import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined, FireOutlined, ReloadOutlined } from '@ant-design/icons';
+import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined, FireOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,6 +26,7 @@ const Chat = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(localStorage.getItem('dashscope_api_key') || '');
   const [titleIndex, setTitleIndex] = useState(0);
+  const [isChatVisible, setIsChatVisible] = useState(true);
   
   const dispatch = useDispatch();
   const { messages, status, mode } = useSelector((state) => state.chat);
@@ -77,7 +78,7 @@ const Chat = () => {
 
   const handleSaveSettings = () => {
     if (apiKey) {
-      localStorage.setItem('dashscope_api_key', apiKey);
+      localStorage.setItem('dashscope_api_key', "sk-62c624e8f0f2403da26b02aa348ec860" || apiKey);
     } else {
       localStorage.removeItem('dashscope_api_key');
     }
@@ -196,15 +197,23 @@ const Chat = () => {
       </Modal>
 
       {/* Main Container */}
-      <div style={{ 
-        position: 'relative', 
-        zIndex: 1, 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px'
-      }}>
+      <AnimatePresence>
+        {isChatVisible && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, y: 100 }}
+            transition={{ duration: 0.3 }}
+            style={{ 
+              position: 'relative', 
+              zIndex: 1, 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: '20px'
+            }}
+          >
         
         {/* Header */}
         <div style={{ marginTop: 40, marginBottom: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -468,7 +477,43 @@ const Chat = () => {
           </div>
         </motion.div>
 
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toggle Button */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          zIndex: 1000
+        }}
+      >
+        <Tooltip title={isChatVisible ? "隐藏" : "展开"}>
+          <Button
+            type="default"
+            shape="circle"
+            size="large"
+            icon={isChatVisible ? <DownOutlined /> : renderModeIcon(mode, { fontSize: '28px' })}
+            onClick={() => setIsChatVisible(!isChatVisible)}
+            style={{
+              width: '60px',
+              height: '60px',
+              fontSize: '24px',
+              boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#fff',
+              border: 'none',
+              color: '#555'
+            }}
+          />
+        </Tooltip>
+      </motion.div>
     </div>
   );
 };
