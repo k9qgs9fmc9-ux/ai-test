@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendMessage, addUserMessage, clearHistory, switchMode } from './features/chat/chatSlice';
 import { Input, Button, Typography, Avatar, Tooltip, Modal, Dropdown, Space, Empty, Tag } from 'antd';
-import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined } from '@ant-design/icons';
+import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined, FireOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,6 +41,8 @@ const Chat = () => {
         return <SmileOutlined style={combinedStyle} />;
       case MODES.TRAVEL:
         return <CompassOutlined style={combinedStyle} />;
+      case MODES.CUISINE_MASTER:
+        return <FireOutlined style={combinedStyle} />;
       case MODES.PRODUCT:
       default:
         return <ShopOutlined style={combinedStyle} />;
@@ -104,6 +106,14 @@ const Chat = () => {
         label: (
           <Space>
             <CompassOutlined style={{ color: '#52c41a' }} /> 旅游向导
+          </Space>
+        ),
+      },
+      {
+        key: MODES.CUISINE_MASTER,
+        label: (
+          <Space>
+            <FireOutlined style={{ color: '#f5222d' }} /> 川菜大师 (强哥)
           </Space>
         ),
       },
