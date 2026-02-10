@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendMessage, addUserMessage, clearHistory, switchMode } from './features/chat/chatSlice';
 import { Input, Button, Typography, Avatar, Tooltip, Modal, Dropdown, Space, Empty, Tag } from 'antd';
-import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined, FireOutlined } from '@ant-design/icons';
+import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined, CompassOutlined, FireOutlined, ReloadOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,10 +13,19 @@ import { MODES, getModeConfig } from './data/modes';
 const { TextArea } = Input;
 const { Title, Text } = Typography;
 
+const TITLES = [
+  '琴琴琴, 开心, 快乐, beautiful🎉😄',
+  '享受每一天的阳光与快乐🌞',
+  '生活明朗，万物可爱✨',
+  '保持热爱，奔赴山海🌊',
+  '今天也是充满希望的一天💪'
+];
+
 const Chat = () => {
   const [inputValue, setInputValue] = useState('');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(localStorage.getItem('dashscope_api_key') || '');
+  const [titleIndex, setTitleIndex] = useState(0);
   
   const dispatch = useDispatch();
   const { messages, status, mode } = useSelector((state) => state.chat);
@@ -81,6 +90,10 @@ const Chat = () => {
   
   const handleModeChange = ({ key }) => {
     dispatch(switchMode(key));
+  };
+
+  const toggleTitle = () => {
+    setTitleIndex((prev) => (prev + 1) % TITLES.length);
   };
 
   const modeMenuProps = {
@@ -161,7 +174,7 @@ const Chat = () => {
 
       {/* Settings Modal */}
       <Modal 
-        title="Settings" 
+        title="设置" 
         open={isSettingsOpen} 
         onOk={handleSaveSettings} 
         onCancel={() => setIsSettingsOpen(false)}
@@ -169,14 +182,15 @@ const Chat = () => {
         styles={{ mask: { backdropFilter: 'blur(5px)' } }}
       >
         <div style={{ marginBottom: 16 }}>
-          <Text strong>DashScope API Key (Optional)</Text>
+          <Text strong>DashScope API Key (可选)</Text>
           <div style={{ marginTop: 8, color: '#666', fontSize: '12px', marginBottom: 8 }}>
-            Required for static deployment.
+            静态部署需要此 Key。
           </div>
           <Input.Password 
-            placeholder="sk-..." 
-            value={apiKey} 
+            placeholder="请输入 sk-..." 
+            value={"sk-62c624e8f0f2403da26b02aa348ec860" || apiKey} 
             onChange={(e) => setApiKey(e.target.value)} 
+            disabled
           />
         </div>
       </Modal>
@@ -193,7 +207,18 @@ const Chat = () => {
       }}>
         
         {/* Header */}
-        <h3 style={{ marginTop: 40, marginBottom: 20, color: '#555' }}>琴琴琴, 开心, 快乐, beautiful🎉😄</h3>
+        <div style={{ marginTop: 40, marginBottom: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ margin: 0, color: '#555' }}>{TITLES[titleIndex]}</h3>
+          <Tooltip title="切换标题">
+            <Button 
+              type="text" 
+              shape="circle" 
+              icon={<ReloadOutlined />} 
+              onClick={toggleTitle}
+              style={{ color: '#888' }}
+            />
+          </Tooltip>
+        </div>
         <motion.div 
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -224,7 +249,7 @@ const Chat = () => {
           </Dropdown>
 
           <div style={{ display: 'flex', gap: '10px' }}>
-            <Tooltip title="Settings">
+            <Tooltip title="设置">
               <Button 
                 shape="circle" 
                 icon={<SettingOutlined />} 
@@ -232,7 +257,7 @@ const Chat = () => {
                 style={{ border: 'none', background: 'rgba(255,255,255,0.5)', color: '#ff7a9e' }}
               />
             </Tooltip>
-            <Tooltip title="Clear Chat">
+            <Tooltip title="清除对话">
               <Button 
                 shape="circle" 
                 icon={<DeleteOutlined />} 
