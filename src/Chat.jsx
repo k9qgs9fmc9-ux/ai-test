@@ -16,9 +16,9 @@ const { Title, Text } = Typography;
 const TITLES = [
   '琴琴琴, 开心, 快乐, beautiful🎉😄',
   '享受每一天的阳光与快乐🌞',
-  '生活明朗，万物可爱✨',
+  // '生活明朗，万物可爱✨',
   '保持热爱，奔赴山海🌊',
-  '今天也是充满希望的一天💪'
+  // '今天也是充满希望的一天💪'
 ];
 
 const Chat = () => {
@@ -110,7 +110,7 @@ const Chat = () => {
         key: MODES.PARENTING,
         label: (
           <Space>
-            <SmileOutlined style={{ color: '#eb2f96' }} /> 蓉姐 (育儿专家)
+            <SmileOutlined style={{ color: '#eb2f96' }} /> 成都育儿专家
           </Space>
         ),
       },
@@ -126,7 +126,7 @@ const Chat = () => {
         key: MODES.CUISINE_MASTER,
         label: (
           <Space>
-            <FireOutlined style={{ color: '#f5222d' }} /> 川菜大师 (强哥)
+            <FireOutlined style={{ color: '#f5222d' }} /> 川菜大师
           </Space>
         ),
       },
