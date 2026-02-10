@@ -78,7 +78,7 @@ const Chat = () => {
 
   const handleSaveSettings = () => {
     if (apiKey) {
-      localStorage.setItem('dashscope_api_key', "sk-62c624e8f0f2403da26b02aa348ec860" || apiKey);
+      localStorage.setItem('dashscope_api_key', apiKey);
     } else {
       localStorage.removeItem('dashscope_api_key');
     }
@@ -189,9 +189,8 @@ const Chat = () => {
           </div>
           <Input.Password 
             placeholder="请输入 sk-..." 
-            value={"sk-62c624e8f0f2403da26b02aa348ec860" || apiKey} 
+            value={apiKey} 
             onChange={(e) => setApiKey(e.target.value)} 
-            disabled
           />
         </div>
       </Modal>
