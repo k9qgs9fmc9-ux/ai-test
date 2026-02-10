@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
 import HeartBackground from './components/HeartBackground';
+import ThinkingBubble from './components/ThinkingBubble';
 import { MODES, getModeConfig } from './data/modes';
 
 const { TextArea } = Input;
@@ -304,6 +305,38 @@ const Chat = () => {
                   </motion.div>
                 );
               })
+            )}
+            
+            {status === 'loading' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                style={{ 
+                  display: 'flex', 
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  marginBottom: '10px'
+                }}
+              >
+                <Avatar 
+                  size="large"
+                  icon={
+                    mode === MODES.FINANCE ? <PayCircleOutlined /> : 
+                    mode === MODES.STOCK ? <RiseOutlined /> : 
+                    mode === MODES.EMOTIONAL ? <HeartOutlined /> :
+                    <ShopOutlined />
+                  } 
+                  style={{ 
+                    backgroundColor: '#fff', 
+                    color: '#ff7a9e',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                  }} 
+                />
+                <ThinkingBubble />
+              </motion.div>
             )}
           </AnimatePresence>
           <div ref={messagesEndRef} />
