@@ -27,8 +27,16 @@ export const sendMessage = createAsyncThunk(
         // Use relative path to work with both dev and production (if served from same origin)
         // Or default to localhost for dev
         const apiBase = import.meta.env.PROD ? '/api/chat' : 'http://localhost:3001/api/chat';
-        const response = await axios.post(apiBase, { messages });
-        return response.data.choices[0].message;
+        try {
+          const response = await axios.post(apiBase, { messages });
+          return response.data.choices[0].message;
+        } catch (axiosError) {
+          // If 404, it means backend is missing (common in static hosting like GitHub Pages)
+          if (axiosError.response && axiosError.response.status === 404) {
+            throw new Error("检测到无后端服务。请点击右上角设置图标，填入您的 API Key 以使用纯前端模式。");
+          }
+          throw axiosError;
+        }
       }
     } catch (error) {
       console.error('Chat Error:', error);
