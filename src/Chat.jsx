@@ -24,7 +24,7 @@ const TITLES = [
 const Chat = () => {
   const [inputValue, setInputValue] = useState('');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('dashscope_api_key') || '');
+  const [apiKey, setApiKey] = useState(localStorage.getItem('dashscope_api_key') || 'sk-62c624e8f0f2403da26b02aa348ec860');
   const [titleIndex, setTitleIndex] = useState(0);
   
   const dispatch = useDispatch();
