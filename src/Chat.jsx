@@ -61,6 +61,14 @@ const Chat = () => {
   const modeMenuProps = {
     items: [
       {
+        key: MODES.EMOTIONAL,
+        label: (
+          <Space>
+            <HeartOutlined style={{ color: '#ff7a9e' }} /> 平哥
+          </Space>
+        ),
+      },
+      {
         key: MODES.PRODUCT,
         label: (
           <Space>
@@ -83,15 +91,7 @@ const Chat = () => {
             <RiseOutlined style={{ color: '#ff7a9e' }} /> 股票专家
           </Space>
         ),
-      },
-      {
-        key: MODES.EMOTIONAL,
-        label: (
-          <Space>
-            <HeartOutlined style={{ color: '#ff7a9e' }} /> 贴心男友
-          </Space>
-        ),
-      },
+      }
     ],
     onClick: handleModeChange,
   };
@@ -243,64 +243,79 @@ const Chat = () => {
                     }}
                   >
                     {!isUser && (
-                      <Avatar 
-                        size="large"
-                        icon={
-                          mode === MODES.FINANCE ? <PayCircleOutlined /> : 
-                          mode === MODES.STOCK ? <RiseOutlined /> : 
-                          mode === MODES.EMOTIONAL ? <HeartOutlined /> :
-                          <ShopOutlined />
-                        } 
-                        style={{ 
-                          backgroundColor: '#fff', 
-                          color: '#ff7a9e',
-                          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                        }} 
-                      />
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                        <Avatar 
+                          size="large"
+                          icon={
+                            mode === MODES.FINANCE ? <PayCircleOutlined /> : 
+                            mode === MODES.STOCK ? <RiseOutlined /> : 
+                            mode === MODES.EMOTIONAL ? <HeartOutlined /> :
+                            <ShopOutlined />
+                          } 
+                          style={{ 
+                            backgroundColor: '#fff', 
+                            color: '#ff7a9e',
+                            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                          }} 
+                        />
+                      </div>
                     )}
                     
-                    <div style={{ 
-                      maxWidth: '75%', 
-                      background: isUser ? 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' : 'rgba(255, 255, 255, 0.8)',
-                      backdropFilter: 'blur(10px)',
-                      color: isUser ? 'white' : '#333',
-                      padding: '16px 24px',
-                      borderRadius: isUser ? '24px 24px 4px 24px' : '24px 24px 24px 4px',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                      fontSize: '16px',
-                      lineHeight: '1.6',
-                      border: '1px solid rgba(255,255,255,0.5)'
-                    }}>
-                      <ReactMarkdown 
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                          code({node, inline, className, children, ...props}) {
-                            return (
-                              <code className={className} {...props} style={{ 
-                                background: 'rgba(0,0,0,0.06)', 
-                                padding: '2px 4px', 
-                                borderRadius: '4px',
-                                color: 'inherit'
-                              }}>
-                                {children}
-                              </code>
-                            )
-                          }
-                        }}
-                      >
-                        {item.content}
-                      </ReactMarkdown>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: isUser ? 'flex-end' : 'flex-start' }}>
+                      <span style={{ 
+                        fontSize: '12px', 
+                        color: '#888', 
+                        marginBottom: '4px',
+                        padding: '0 4px',
+                        fontWeight: '500'
+                      }}>
+                        {isUser ? '我' : currentConfig.name}
+                      </span>
+                      <div style={{ 
+                        maxWidth: '100%', 
+                        background: isUser ? 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' : 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(10px)',
+                        color: isUser ? 'white' : '#333',
+                        padding: '16px 24px',
+                        borderRadius: isUser ? '24px 24px 4px 24px' : '24px 24px 24px 4px',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+                        fontSize: '16px',
+                        lineHeight: '1.6',
+                        border: '1px solid rgba(255,255,255,0.5)'
+                      }}>
+                        <ReactMarkdown 
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            code({node, inline, className, children, ...props}) {
+                              return (
+                                <code className={className} {...props} style={{ 
+                                  background: 'rgba(0,0,0,0.06)', 
+                                  padding: '2px 4px', 
+                                  borderRadius: '4px',
+                                  color: 'inherit'
+                                }}>
+                                  {children}
+                                </code>
+                              )
+                            }
+                          }}
+                        >
+                          {item.content}
+                        </ReactMarkdown>
+                      </div>
                     </div>
 
                     {isUser && (
-                      <Avatar 
-                        size="large"
-                        icon={<UserOutlined />} 
-                        style={{ 
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                        }} 
-                      />
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                        <Avatar 
+                          size="large"
+                          icon={<UserOutlined />} 
+                          style={{ 
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                          }} 
+                        />
+                      </div>
                     )}
                   </motion.div>
                 );
