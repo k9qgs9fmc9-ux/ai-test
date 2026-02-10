@@ -100,14 +100,6 @@ const Chat = () => {
   const modeMenuProps = {
     items: [
       {
-        key: MODES.EMOTIONAL,
-        label: (
-          <Space>
-            <HeartOutlined style={{ color: '#ff7a9e' }} /> 平哥
-          </Space>
-        ),
-      },
-      {
         key: MODES.PARENTING,
         label: (
           <Space>
