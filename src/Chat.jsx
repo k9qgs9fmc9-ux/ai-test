@@ -26,10 +26,10 @@ const Chat = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(localStorage.getItem('dashscope_api_key') || '');
   const [titleIndex, setTitleIndex] = useState(0);
-  const [isChatVisible, setIsChatVisible] = useState(true);
   
   const dispatch = useDispatch();
   const { messages, status, mode } = useSelector((state) => state.chat);
+  const [isBossModeUnlocked, setIsBossModeUnlocked] = useState(mode === MODES.EMOTIONAL);
   const messagesEndRef = useRef(null);
   
   const currentConfig = getModeConfig(mode);
@@ -99,6 +99,14 @@ const Chat = () => {
 
   const modeMenuProps = {
     items: [
+      ...(isBossModeUnlocked ? [{
+        key: MODES.EMOTIONAL,
+        label: (
+          <Space>
+            <HeartOutlined style={{ color: '#ff7a9e' }} /> 平哥
+          </Space>
+        ),
+      }] : []),
       {
         key: MODES.PARENTING,
         label: (
@@ -474,16 +482,23 @@ const Chat = () => {
           zIndex: 1000
         }}
       >
-        <Tooltip title={mode === MODES.EMOTIONAL ? "隐藏平哥" : "呼叫平哥"}>
+        <Tooltip title={isBossModeUnlocked ? "隐藏平哥" : "呼叫平哥"}>
           <Button
             type="default"
             shape="circle"
             size="large"
-            icon={mode === MODES.EMOTIONAL ? <CloseOutlined /> : <HeartFilled style={{ color: '#ff7a9e' }} />}
+            icon={isBossModeUnlocked ? <CloseOutlined /> : <HeartFilled style={{ color: '#ff7a9e' }} />}
             onClick={() => {
-              if (mode === MODES.EMOTIONAL) {
-                handleModeChange({ key: MODES.PRODUCT });
+              if (isBossModeUnlocked) {
+                // Lock it (hide)
+                setIsBossModeUnlocked(false);
+                // If currently in emotional mode, switch to default
+                if (mode === MODES.EMOTIONAL) {
+                  handleModeChange({ key: MODES.PRODUCT });
+                }
               } else {
+                // Unlock it (show) and switch to it
+                setIsBossModeUnlocked(true);
                 handleModeChange({ key: MODES.EMOTIONAL });
               }
             }}
