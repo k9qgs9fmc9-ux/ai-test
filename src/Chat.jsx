@@ -24,6 +24,29 @@ const Chat = () => {
   
   const currentConfig = getModeConfig(mode);
 
+  const renderModeIcon = (targetMode, style = {}) => {
+    const config = getModeConfig(targetMode);
+    const color = config?.themeColor || '#ff7a9e';
+    const combinedStyle = { fontSize: style.fontSize, color, ...style }; // Preserve fontSize if passed separately or in style
+
+    // Specialized icons for each mode
+    switch (targetMode) {
+      case MODES.FINANCE:
+        return <PayCircleOutlined style={combinedStyle} />;
+      case MODES.STOCK:
+        return <RiseOutlined style={combinedStyle} />;
+      case MODES.EMOTIONAL:
+        return <HeartOutlined style={combinedStyle} />;
+      case MODES.PARENTING:
+        return <SmileOutlined style={combinedStyle} />;
+      case MODES.TRAVEL:
+        return <CompassOutlined style={combinedStyle} />;
+      case MODES.PRODUCT:
+      default:
+        return <ShopOutlined style={combinedStyle} />;
+    }
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -182,15 +205,7 @@ const Chat = () => {
           <Dropdown menu={modeMenuProps} trigger={['click']}>
             <Button type="text" style={{ height: 'auto', padding: '4px 8px' }}>
               <Space>
-                {mode === MODES.FINANCE ? (
-                  <PayCircleOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
-                ) : mode === MODES.STOCK ? (
-                  <RiseOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
-                ) : mode === MODES.EMOTIONAL ? (
-                  <HeartOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
-                ) : (
-                  <ShopOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
-                )}
+                {renderModeIcon(mode, { fontSize: '24px' })}
                 <Title level={4} style={{ margin: 0, color: '#555' }}>
                   {currentConfig.name} <DownOutlined style={{ fontSize: '14px', verticalAlign: 'middle' }}/>
                 </Title>
@@ -262,15 +277,9 @@ const Chat = () => {
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
                         <Avatar 
                           size="large"
-                          icon={
-                            mode === MODES.FINANCE ? <PayCircleOutlined /> : 
-                            mode === MODES.STOCK ? <RiseOutlined /> : 
-                            mode === MODES.EMOTIONAL ? <HeartOutlined /> :
-                            <ShopOutlined />
-                          } 
+                          icon={renderModeIcon(mode)} 
                           style={{ 
                             backgroundColor: '#fff', 
-                            color: '#ff7a9e',
                             boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                           }} 
                         />
@@ -354,15 +363,9 @@ const Chat = () => {
               >
                 <Avatar 
                   size="large"
-                  icon={
-                    mode === MODES.FINANCE ? <PayCircleOutlined /> : 
-                    mode === MODES.STOCK ? <RiseOutlined /> : 
-                    mode === MODES.EMOTIONAL ? <HeartOutlined /> :
-                    <ShopOutlined />
-                  } 
+                  icon={renderModeIcon(mode)} 
                   style={{ 
                     backgroundColor: '#fff', 
-                    color: '#ff7a9e',
                     boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                   }} 
                 />
