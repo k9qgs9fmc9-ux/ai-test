@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendMessage, addUserMessage, clearHistory, switchMode } from './features/chat/chatSlice';
 import { Input, Button, Typography, Avatar, Tooltip, Modal, Dropdown, Space, Empty, Tag } from 'antd';
-import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined } from '@ant-design/icons';
+import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -63,7 +63,7 @@ const Chat = () => {
         key: MODES.PRODUCT,
         label: (
           <Space>
-            <ShopOutlined style={{ color: '#ff7a9e' }} /> Product Expert
+            <ShopOutlined style={{ color: '#ff7a9e' }} /> 产品专家
           </Space>
         ),
       },
@@ -71,7 +71,7 @@ const Chat = () => {
         key: MODES.FINANCE,
         label: (
           <Space>
-            <PayCircleOutlined style={{ color: '#ff7a9e' }} /> Financial Expert
+            <PayCircleOutlined style={{ color: '#ff7a9e' }} /> 财务金融专家
           </Space>
         ),
       },
@@ -79,7 +79,15 @@ const Chat = () => {
         key: MODES.STOCK,
         label: (
           <Space>
-            <RiseOutlined style={{ color: '#ff7a9e' }} /> Stock Expert
+            <RiseOutlined style={{ color: '#ff7a9e' }} /> 股票专家
+          </Space>
+        ),
+      },
+      {
+        key: MODES.EMOTIONAL,
+        label: (
+          <Space>
+            <HeartOutlined style={{ color: '#ff7a9e' }} /> 贴心男友
           </Space>
         ),
       },
@@ -135,6 +143,7 @@ const Chat = () => {
       }}>
         
         {/* Header */}
+        <h3 style={{ marginTop: 40, marginBottom: 20, color: '#555' }}>琴琴琴, 开心, 快乐, beautiful🎉😄</h3>
         <motion.div 
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -160,6 +169,8 @@ const Chat = () => {
                   <PayCircleOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
                 ) : mode === MODES.STOCK ? (
                   <RiseOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
+                ) : mode === MODES.EMOTIONAL ? (
+                  <HeartOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
                 ) : (
                   <ShopOutlined style={{ fontSize: '24px', color: '#ff7a9e' }} />
                 )}
@@ -211,7 +222,7 @@ const Chat = () => {
                 style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.7 }}
               >
                 <HeartFilled style={{ fontSize: '64px', color: '#fff', filter: 'drop-shadow(0 0 10px rgba(255, 122, 158, 0.5))', marginBottom: '20px' }} />
-                <Title level={3} style={{ color: '#fff', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Waiting for your words...</Title>
+                {/* <Title level={3} style={{ color: '#fff', textShadow: '0 2px 4px #555' }}>🎹琴琴琴🎹</Title> */}
               </motion.div>
             ) : (
               displayMessages.map((item, index) => {
@@ -233,7 +244,12 @@ const Chat = () => {
                     {!isUser && (
                       <Avatar 
                         size="large"
-                        icon={mode === MODES.FINANCE ? <PayCircleOutlined /> : mode === MODES.STOCK ? <RiseOutlined /> : <ShopOutlined />} 
+                        icon={
+                          mode === MODES.FINANCE ? <PayCircleOutlined /> : 
+                          mode === MODES.STOCK ? <RiseOutlined /> : 
+                          mode === MODES.EMOTIONAL ? <HeartOutlined /> :
+                          <ShopOutlined />
+                        } 
                         style={{ 
                           backgroundColor: '#fff', 
                           color: '#ff7a9e',
@@ -324,7 +340,7 @@ const Chat = () => {
                   handleSend();
                 }
               }}
-              placeholder="Type a message..."
+              placeholder="美琴，请开始你的快乐..."
               autoSize={{ minRows: 1, maxRows: 4 }}
               bordered={false}
               style={{ 
