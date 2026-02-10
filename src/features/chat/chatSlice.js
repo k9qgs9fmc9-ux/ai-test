@@ -45,7 +45,7 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
-const initialMode = MODES.PRODUCT;
+const initialMode = MODES.EMOTIONAL;
 const initialConfig = getModeConfig(initialMode);
 
 const chatSlice = createSlice({
