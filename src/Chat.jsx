@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendMessage, addUserMessage, clearHistory, switchMode } from './features/chat/chatSlice';
 import { Input, Button, Typography, Avatar, Tooltip, Modal, Dropdown, Space, Empty, Tag } from 'antd';
-import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined } from '@ant-design/icons';
+import { SendOutlined, UserOutlined, SettingOutlined, DeleteOutlined, ShopOutlined, PayCircleOutlined, RiseOutlined, HeartFilled, DownOutlined, HeartOutlined, SmileOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -65,6 +65,14 @@ const Chat = () => {
         label: (
           <Space>
             <HeartOutlined style={{ color: '#ff7a9e' }} /> 平哥
+          </Space>
+        ),
+      },
+      {
+        key: MODES.PARENTING,
+        label: (
+          <Space>
+            <SmileOutlined style={{ color: '#eb2f96' }} /> 蓉姐 (育儿专家)
           </Space>
         ),
       },
